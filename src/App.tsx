@@ -161,65 +161,7 @@ useEffect(() => {
 }, []);
 
 
-/*ticket*/
-useEffect(() => {
-  if (!user?.id) return;
 
-  const canal = supabase
-    .channel('debug-resultado')
-    .on(
-      'postgres_changes',
-      { event: 'UPDATE', schema: 'public', table: 'pools' },
-      async (payload) => {
-        // 1. O código chegou aqui?
-        console.log("RECEBI MUDANÇA NA POOL!", payload.new.status);
-
-        if (payload.new.status === 'closed') {
-          console.log("Status é CLOSED. Procurando bet para user:", user.id);
-
-          const { data: minhaAposta, error } = await supabase
-            .from('bets')
-            .select('*')
-            .eq('pool_id', payload.new.id)
-            .eq('user_id', user.id)
-            .maybeSingle();
-
-          if (error) {
-            console.error("Erro na busca da bet:", error);
-            return;
-          }
-
-          if (!minhaAposta) {
-            console.warn("VOCÊ NÃO TEM APOSTA NESSA POOL. ID da Pool:", payload.new.id);
-            // TESTE: Remova o comentário abaixo para forçar o modal mesmo sem aposta
-            // setDadosTicket({ poolTitle: payload.new.title, status: 'win', amount: 10, multiplier: 2, optionLabel: 'TESTE', stats: {fav:50, contra:50} });
-            // setIsApostaConcluida(true);
-            return;
-          }
-
-          console.log("BET ENCONTRADA! Abrindo ticket...");
-          
-          const ganhou = minhaAposta.option_id === payload.new.winner_id;
-          setDadosTicket({
-            poolTitle: payload.new.title,
-            optionLabel: minhaAposta.option_label || (ganhou ? "VENCEDOR" : "CONTRA"),
-            amount: minhaAposta.amount,
-            multiplier: payload.new.final_multiplier || 1.0,
-            status: ganhou ? 'win' : 'lose',
-            stats: { fav: 50, contra: 50 },
-            qtdGanhadores: payload.new.total_winners, // Nova coluna
-            valorTotalPote: payload.new.total_pool_sum, // Nova coluna
-            justificativa: (payload.new as any).justificativa
-          });
-          setIsApostaConcluida(true);
-        }
-      }
-    )
-    .subscribe();
-
-  return () => { supabase.removeChannel(canal); };
-}, [user?.id]);
-/*ticket*/
 
 
 useEffect(() => {
