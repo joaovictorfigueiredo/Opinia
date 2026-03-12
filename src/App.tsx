@@ -564,7 +564,21 @@ async function buscarHistoricoCriador(userId: string) {
   if (!user?.id || isNaN(valor) || valor <= 0 || valor > (perfil?.balance || 0)) {
     return alert("Dados inválidos ou saldo insuficiente.");
   }
+    // 1. Pegue o IP do usuário
+const res = await fetch('https://api.ipify.org?format=json');
+const { ip } = await res.json();
 
+// 2. Envia a aposta com o IP para o Trigger validar
+   // Na hora de salvar a pool no banco
+const { error } = await supabase.from('pools').insert({
+  title: titulo,
+  user_id: user.id,
+  ip_address: ip // <--- SALVE O IP DO CRIADOR AQUI
+});
+if (error) {
+       alert(error.message); // Exibirá: "Segurança: Este dispositivo já apostou..."
+       return;
+    }
   setIsActionLoading(true);
 
   try {
