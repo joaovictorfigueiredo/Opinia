@@ -561,58 +561,52 @@ async function buscarHistoricoCriador(userId: string) {
 
   async function confirmarAposta() {
   const valor = parseFloat(valorAposta);
+  
+  // 1. Validação básica
   if (!user?.id || isNaN(valor) || valor <= 0 || valor > (perfil?.balance || 0)) {
     return alert("Dados inválidos ou saldo insuficiente.");
   }
-    // 1. Pegue o IP do usuário
-const res = await fetch('https://api.ipify.org?format=json');
-const { ip } = await res.json();
 
-// 2. Envia a aposta com o IP para o Trigger validar
-   // Na hora de salvar a pool no banco
-const { error } = await supabase.from('pools').insert({
-  title: titulo,
-  user_id: user.id,
-  ip_address: ip // <--- SALVE O IP DO CRIADOR AQUI
-});
-if (error) {
-       alert(error.message); // Exibirá: "Segurança: Este dispositivo já apostou..."
-       return;
-    }
   setIsActionLoading(true);
 
   try {
-    // 1. GERA A DIGITAL DO APARELHO (NOVO)
+    // 2. Captura o IP (Fundamental para o bloqueio de multi-conta)
+    const res = await fetch('https://api.ipify.org?format=json');
+    const { ip } = await res.json();
+
+    if (!ip) throw new Error("Não foi possível identificar seu IP de segurança.");
+
+    // 3. Digital do aparelho
     const fingerprint = getDeviceFingerprint(); 
-    
-    // 2. MANTÉM O REQUEST ID (BOA PRÁTICA)
     const requestId = crypto.randomUUID(); 
 
-    // 3. CHAMA A RPC QUE AGORA TAMBÉM CHECA O DISPOSITIVO
+    // 4. CHAMA A RPC (Passando o IP e o DeviceID)
+    // A RPC deve ser a única responsável por inserir na tabela 'bets' e descontar o saldo
     const { error: rpcError } = await supabase.rpc('processar_aposta_ledger', { 
       p_user_id: user.id, 
       p_pool_id: selectedPool.id, 
       p_option_id: selectedOption.id, 
       p_amount: valor,
       p_request_id: requestId,
-      p_device_id: fingerprint // <--- NOVO: Envia a digital do aparelho
+      p_device_id: fingerprint, // Digital do navegador
+      p_ip_address: ip          // <--- NOVO: Envia o IP para a RPC validar no banco
     });
 
     if (rpcError) throw new Error(rpcError.message);
 
-    // Sucesso: limpa e atualiza tudo
+    // 5. Sucesso: limpa e atualiza tudo
+    alert("Aposta confirmada!");
     setIsModalOpen(false);
     setValorAposta('');
     
-    // Atualiza os estados para refletir o novo saldo e histórico
+    // Atualiza os estados
     buscarPerfil(user.id);
     buscarPools();
-    buscarHistorico(user.id); // <--- Importante para ver a linha no Livro Razão
+    buscarHistorico(user.id);
     
   } catch (error: any) {
-    // Se a RPC detectar que o mesmo aparelho está em outra conta, 
-    // ela retornará o erro aqui.
-    alert("Erro de Segurança: " + error.message);
+    // O erro do Trigger ou da RPC (ex: "Mesmo dispositivo/IP já apostou") cairá aqui
+    alert(error.message);
   } finally {
     setIsActionLoading(false);
   }
