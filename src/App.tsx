@@ -150,6 +150,7 @@ const [dadosTicket, setDadosTicket] = useState<{
   qtdGanhadores?: number; 
   valorTotalPote?: number;
   lucro: number;
+  recebido: number;
   stats: { fav: number; contra: number };
   justificativa?: string; // <--- Certifique-se que esta linha está aqui
 } | null>(null);
