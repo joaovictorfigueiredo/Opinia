@@ -24,7 +24,8 @@ export const BetTicket = ({
   justificativa,
   // NOVOS CAMPOS RECEBIDOS NAS PROPS
   valorTotalPote,
-  qtdGanhadores 
+  qtdGanhadores,
+  lucro
 }: TicketProps) => {
   const isWin = status === 'win';
 
@@ -134,3 +135,4 @@ export const BetTicket = ({
   );
 
 };
+
