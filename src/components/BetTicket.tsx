@@ -9,9 +9,9 @@ interface TicketProps {
   status: 'win' | 'lose';
   stats: { fav: number; contra: number };
   justificativa?: string;
-  // NOVOS CAMPOS ADICIONADOS NA INTERFACE
   valorTotalPote?: number;
   qtdGanhadores?: number;
+  lucro?: number; // <--- ADICIONE ISSO
 }
 
 export const BetTicket = ({ 
@@ -132,4 +132,5 @@ export const BetTicket = ({
       </div>
     </div>
   );
+
 };
