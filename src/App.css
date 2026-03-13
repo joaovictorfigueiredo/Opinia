@@ -63,7 +63,7 @@ html, body {
     top: 2rem;
   }
 
-  .poolsresultados {
+  .poolsresultados div{
     
     align-items: center;
     justify-content: space-between;
