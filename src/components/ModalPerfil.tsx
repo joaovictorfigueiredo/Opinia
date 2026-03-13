@@ -189,14 +189,12 @@ export function ModalPerfil({ perfil, pools, onClose, usuarioLogado, onVerPoolsA
             👎 Não Confiável
           </button>
 
-           <button 
-            onClick={() => {
-              onVerPoolsAtivas(perfil.id, perfil.nickname);
-              onClose();
-            }}
-            className="col-span-2 mt-2 bg-transparent border border-[#10b981] text-[#10b981] p-4 rounded-2xl font-black text-[10px] uppercase hover:bg-[#10b981] hover:text-[#0f172a] transition-all shadow-lg active:scale-95"
+          <button 
+            disabled={loading}
+            onClick={() => handleVoto('bad')} 
+            className="bg-gray-800/30 hover:bg-red-950/30 text-red-500/80 hover:text-red-500 p-4 rounded-2xl font-black text-[10px] uppercase transition-all border border-transparent hover:border-red-900/50 disabled:opacity-30"
           >
-            👁️ Ver Pools Ativas de @{perfil.nickname}
+            👎 Não Confiável
           </button>
 
           <button 
@@ -208,12 +206,21 @@ export function ModalPerfil({ perfil, pools, onClose, usuarioLogado, onVerPoolsA
           </button>
 
           {/* O NOVO BOTÃO AGORA OCUPA AS DUAS COLUNAS E ESTÁ DENTRO DA GRID */}
-         
+         <button 
+            onClick={() => {
+              onVerPoolsAtivas(perfil.id, perfil.nickname);
+              onClose();
+            }}
+            className="col-span-2 mt-2 bg-transparent border border-[#10b981] text-[#10b981] p-4 rounded-2xl font-black text-[10px] uppercase hover:bg-[#10b981] hover:text-[#0f172a] transition-all shadow-lg active:scale-95"
+          >
+            👁️ Ver Pools Ativas de @{perfil.nickname}
+          </button>
         </div>
       </div>
     </div>
   );
 }
+
 
 
 
