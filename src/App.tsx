@@ -13,6 +13,10 @@ type AbaType = 'explorar' | 'minhas_apostas' | 'criadas_por_mim';
 
 // Adicione esse estado no App.tsx
 const [usuarioDestaque, setUsuarioDestaque] = useState<{id: string, nickname: string} | null>(null);
+const handleVerPoolsAtivas = (id: string, nick: string) => {
+  // Aqui você usa o nome novo do estado
+  setUsuarioDestaque({ id, nickname: nick });
+};
 
 //cronometro de pagamento
 const calcularTempoRestante = (releaseAt: string) => {
