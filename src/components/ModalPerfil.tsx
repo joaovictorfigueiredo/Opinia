@@ -202,6 +202,7 @@ export function ModalPerfil({ perfil, pools, onClose, usuarioLogado, onVerPoolsA
           {/* O NOVO BOTÃO AGORA OCUPA AS DUAS COLUNAS E ESTÁ DENTRO DA GRID */}
          <button 
             onClick={() => {
+              if (!perfil) return;
               onVerPoolsAtivas(perfil.id, perfil.nickname);
               onClose();
             }}
