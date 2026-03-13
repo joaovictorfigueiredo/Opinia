@@ -209,6 +209,9 @@ export function ModalPerfil({ perfil, pools, onClose, usuarioLogado, onVerPoolsA
           >
             👁️ Ver Pools Ativas de @{perfil.nickname}
           </button>
+          {usuarioDestaque && (
+  <div>Vendo pools de @{usuarioDestaque.nickname}</div>
+)}
 
          
         </div>
