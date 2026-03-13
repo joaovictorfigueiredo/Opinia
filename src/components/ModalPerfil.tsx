@@ -1,8 +1,9 @@
-// 1. Adicione a prop na tipagem lá no topo do arquivo
 type Props = {
   perfil: any;
+  pools: any[];
+  usuarioLogado: any;
   onClose: () => void;
-  onVerPoolsAtivas: (id: string, nick: string) => void; // <--- Adicione isso
+  onVerPoolsAtivas: (id: string, nick: string) => void; // Adicione isso
 }
 
 import React, { useState, useEffect } from 'react';
@@ -213,4 +214,5 @@ export function ModalPerfil({ perfil, pools, onClose, usuarioLogado }: any) {
   );
 
 }
+
 
