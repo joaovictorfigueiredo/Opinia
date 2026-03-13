@@ -11,6 +11,9 @@ import { Shield, Scale, Trophy, Skull, Users } from 'lucide-react';
 // --- TIPOS ---
 type AbaType = 'explorar' | 'minhas_apostas' | 'criadas_por_mim';
 
+// Adicione esse estado no App.tsx
+const [usuarioDestaque, setUsuarioDestaque] = useState<{id: string, nickname: string} | null>(null);
+
 //cronometro de pagamento
 const calcularTempoRestante = (releaseAt: string) => {
   const agora = new Date().getTime();
@@ -154,6 +157,10 @@ const [dadosTicket, setDadosTicket] = useState<{
   stats: { fav: number; contra: number };
   justificativa?: string; // <--- Certifique-se que esta linha está aqui
 } | null>(null);
+
+  // Adicione isso junto com seus outros useState
+const [filtroUsuarioId, setFiltroUsuarioId] = useState<string | null>(null);
+const [nomeUsuarioVisitado, setNomeUsuarioVisitado] = useState<string>("");
   
 
 // Isso vai fazer o React "acordar" a cada segundo e re-checar os botões
