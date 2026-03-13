@@ -170,7 +170,11 @@ useEffect(() => {
 }, []);
 
 
-
+// Este é o "Gatilho"
+useEffect(() => {
+  buscarPools();
+}, [filtroUsuarioId, abaAtiva]); 
+// Toda vez que o filtro de usuário mudar ou você trocar de aba, ele busca de novo.
 
 
 useEffect(() => {
