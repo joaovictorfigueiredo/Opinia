@@ -188,8 +188,20 @@ export function ModalPerfil({ perfil, pools, onClose, usuarioLogado }: any) {
           >
             {loading ? 'Processando...' : '👍 Criador Top'}
           </button>
+
+          // Dentro do ModalPerfil
+            <button 
+              onClick={() => {
+                onVerPoolsAtivas(perfil.id, perfil.nickname); // Passamos os dados para o App.tsx
+                onClose(); // Fecha o modal
+              }}
+              className="w-full mt-6 bg-[#10b981] p-4 rounded-2xl font-black text-[#0f172a] text-xs uppercase hover:scale-105 transition-all shadow-lg"
+            >
+              👁️ Ver Pools Ativas de @{perfil.nickname}
+            </button>
         </div>
       </div>
     </div>
   );
+
 }
