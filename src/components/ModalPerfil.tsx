@@ -1,3 +1,10 @@
+// 1. Adicione a prop na tipagem lá no topo do arquivo
+type Props = {
+  perfil: any;
+  onClose: () => void;
+  onVerPoolsAtivas: (id: string, nick: string) => void; // <--- Adicione isso
+}
+
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import FingerprintJS from '@fingerprintjs/fingerprintjs';
@@ -206,3 +213,4 @@ export function ModalPerfil({ perfil, pools, onClose, usuarioLogado }: any) {
   );
 
 }
+
