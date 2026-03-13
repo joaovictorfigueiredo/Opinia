@@ -1081,6 +1081,13 @@ async function buscarHistoricoCriador(userId: string) {
       setPerfilAberto(null);
       buscarPools();           // Atualiza os dados na tela principal após votar
     }} 
+    // ADICIONE ESTA NOVA PROP AQUI:
+    onVerPoolsAtivas={(id, nick) => {
+      setFiltroUsuarioId(id);       // Ativa o filtro que criamos na função buscarPools
+      setNomeUsuarioVisitado(nick); // Salva o nome para o aviso no topo
+      setPerfilAberto(null);        // Fecha o modal
+      setAbaAtiva('Explorar');      // Garante que o usuário veja os cards
+    }}
   />
 )}
 
