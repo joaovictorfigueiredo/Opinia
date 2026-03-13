@@ -161,6 +161,7 @@ const [dadosTicket, setDadosTicket] = useState<{
   // Adicione isso junto com seus outros useState
 const [filtroUsuarioId, setFiltroUsuarioId] = useState<string | null>(null);
 const [nomeUsuarioVisitado, setNomeUsuarioVisitado] = useState<string>("");
+const [usuarioDestaque, setUsuarioDestaque] = useState<{id: string, nickname: string} | null>(null);
   
 
 // Isso vai fazer o React "acordar" a cada segundo e re-checar os botões
