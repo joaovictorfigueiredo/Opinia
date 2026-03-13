@@ -188,7 +188,7 @@ export function ModalPerfil({ perfil, pools, onClose, usuarioLogado, onVerPoolsA
             onClick={() => handleVoto('bad')} 
             className="bg-gray-800/30 hover:bg-red-950/30 text-red-500/80 hover:text-red-500 p-4 rounded-2xl font-black text-[10px] uppercase transition-all border border-transparent hover:border-red-900/50 disabled:opacity-30"
           >
-            👎 Não Confiáve
+            👎 Não Confiável
           </button>
           
           <button 
