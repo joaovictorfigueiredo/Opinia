@@ -418,7 +418,7 @@ async function handleLogin() {
     .order('created_at', { ascending: false });
 
   // 2. NOVO: Se tiver um filtro de usuário (visitante), ele tem prioridade
-  if (filtroUsuarioId) {
+  if (usuarioDestaque) {
     query = query.eq('user_id', usuarioDestaque.id).eq('status', 'open');
   } 
   // 3. Se não for visita, entra na sua lógica original de abas
