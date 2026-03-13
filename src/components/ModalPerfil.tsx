@@ -220,6 +220,7 @@ export function ModalPerfil({ perfil, pools, onClose, usuarioLogado, onVerPoolsA
   );
 }
 
+console.log("perfil:", perfil)
 
 
 
