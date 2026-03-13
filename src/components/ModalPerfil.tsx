@@ -10,7 +10,7 @@ import React, { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import FingerprintJS from '@fingerprintjs/fingerprintjs';
 
-export function ModalPerfil({ perfil, pools, onClose, usuarioLogado }: any) {
+export function ModalPerfil({ perfil, pools, onClose, usuarioLogado, onVerPoolsAtivas}: Props) {
   const [loading, setLoading] = useState(false);
   const [fingerprint, setFingerprint] = useState<string | null>(null);
   
@@ -212,6 +212,7 @@ export function ModalPerfil({ perfil, pools, onClose, usuarioLogado }: any) {
     </div>
   );
 }
+
 
 
 
