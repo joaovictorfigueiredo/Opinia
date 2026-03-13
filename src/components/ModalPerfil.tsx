@@ -188,7 +188,8 @@ export function ModalPerfil({ perfil, pools, onClose, usuarioLogado }: any) {
           >
             {loading ? 'Processando...' : '👍 Criador Top'}
           </button>
-
+        </div>
+        <div>
           // Dentro do ModalPerfil
             <button 
               onClick={() => {
