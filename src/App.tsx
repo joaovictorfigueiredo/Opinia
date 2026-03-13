@@ -11,12 +11,7 @@ import { Shield, Scale, Trophy, Skull, Users } from 'lucide-react';
 // --- TIPOS ---
 type AbaType = 'explorar' | 'minhas_apostas' | 'criadas_por_mim';
 
-// Adicione esse estado no App.tsx
-const [usuarioDestaque, setUsuarioDestaque] = useState<{id: string, nickname: string} | null>(null);
-const handleVerPoolsAtivas = (id: string, nick: string) => {
-  // Aqui você usa o nome novo do estado
-  setUsuarioDestaque({ id, nickname: nick });
-};
+;
 
 //cronometro de pagamento
 const calcularTempoRestante = (releaseAt: string) => {
@@ -166,6 +161,12 @@ const [dadosTicket, setDadosTicket] = useState<{
 const [filtroUsuarioId, setFiltroUsuarioId] = useState<string | null>(null);
 const [nomeUsuarioVisitado, setNomeUsuarioVisitado] = useState<string>("");
 const [usuarioDestaque, setUsuarioDestaque] = useState<{id: string, nickname: string} | null>(null);
+  // Adicione esse estado no App.tsx
+const [usuarioDestaque, setUsuarioDestaque] = useState<{id: string, nickname: string} | null>(null);
+const handleVerPoolsAtivas = (id: string, nick: string) => {
+  // Aqui você usa o nome novo do estado
+  setUsuarioDestaque({ id, nickname: nick });
+}
   
 
 // Isso vai fazer o React "acordar" a cada segundo e re-checar os botões
