@@ -402,41 +402,44 @@ async function handleLogin() {
 }
 
   async function buscarPools() {
-  // 1. Iniciamos a busca com a estrutura que você já tem
+  // 1. Mantivemos sua estrutura idêntica para não quebrar o layout
   let query = supabase
     .from('pools')
     .select(`*, profiles:user_id (reputation, nickname), pool_options (*, bets (amount, user_id))`)
     .order('created_at', { ascending: false });
 
-  // 2. FILTRO DE ORIGEM (Abas)
-  // Se a aba for "Onde Apostei", filtramos apenas as pools onde seu ID aparece nas apostas
-  if (abaAtiva === 'minhas_apostas' && user) {
-    const { data: minhasBets } = await supabase
-      .from('bets')
-      .select('pool_id')
-      .eq('user_id', user.id);
-    
-    const idsRelacionados = minhasBets?.map(b => b.pool_id) || [];
-    query = query.in('id', idsRelacionados);
+  // 2. NOVO: Se tiver um filtro de usuário (visitante), ele tem prioridade
+  if (filtroUsuarioId) {
+    query = query.eq('user_id', filtroUsuarioId).eq('status', 'open');
   } 
-  // Se a aba for "Minhas Criações", filtramos pelo seu ID de criador
-  else if (abaAtiva === 'criadas_por_mim' && user) {
-    query = query.eq('user_id', user.id);
+  // 3. Se não for visita, entra na sua lógica original de abas
+  else {
+    if (abaAtiva === 'minhas_apostas' && user) {
+      const { data: minhasBets } = await supabase
+        .from('bets')
+        .select('pool_id')
+        .eq('user_id', user.id);
+      
+      const idsRelacionados = minhasBets?.map(b => b.pool_id) || [];
+      query = query.in('id', idsRelacionados);
+    } 
+    else if (abaAtiva === 'criadas_por_mim' && user) {
+      query = query.eq('user_id', user.id);
+    }
+
+    // Seus filtros de status das abas
+    if (abaAtiva === 'ativas') {
+      query = query.eq('status', 'open');
+    } else if (abaAtiva === 'finalizadas') {
+      query = query.eq('status', 'closed');
+    }
   }
 
-  // 3. FILTRO DE STATUS (Facilita muito a navegação)
-  // Se você quiser ver apenas as que ainda aceitam apostas:
-  // query = query.eq('status', 'open');
-  // 3. FILTRO DE STATUS (Unificado com as novas abas)
-if (abaAtiva === 'ativas') {
-  query = query.eq('status', 'open');
-} else if (abaAtiva === 'finalizadas') {
-  query = query.eq('status', 'closed');
-}
-  // Se quiser ver apenas as que já foram encerradas:
-  // query = query.eq('status', 'closed');
-
   const { data, error } = await query;
+  if (error) {
+    console.error("Erro na busca:", error.message);
+    return;
+  }
   if (data) setPools(data);
 }
 
